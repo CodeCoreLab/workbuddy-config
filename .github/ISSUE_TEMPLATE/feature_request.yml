@@ -1,0 +1,49 @@
+name: 模板改进建议
+description: 提议新的占位符、新的配置段落、新的检查规则
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        欢迎提议改进。本仓只接受**与模板本身**相关的改动，
+        不接受填入真实配置的提交。
+
+  - type: textarea
+    id: feature
+    attributes:
+      label: 建议改进什么
+      description: 描述你希望新增/修改的模板能力，以及它解决什么问题
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 具体方案
+      description: 如果已有想法，可以贴出拟新增的 Markdown 段落或占位符写法
+      render: markdown
+    validations:
+      required: false
+
+  - type: dropdown
+    id: target-file
+    attributes:
+      label: 主要影响哪个文件
+      options:
+        - SOUL.md
+        - IDENTITY.md
+        - USER.md
+        - MEMORY.md
+        - README.md
+        - 检查脚本
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: check
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已确认本 issue 不含真实凭据、内网地址或个人信息
+          required: true

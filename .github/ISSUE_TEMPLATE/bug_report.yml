@@ -1,0 +1,56 @@
+name: 配置问题反馈
+description: 报告模板本身的缺陷 —— 占位符错误、示例失效、文档与实现不符
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。本仓是**模板仓**，欢迎指出模板本身的缺陷。
+        请勿在 issue 中粘贴真实的 IP、密钥路径、团队成员信息。
+
+  - type: textarea
+    id: which-file
+    attributes:
+      label: 问题出现在哪个文件
+      placeholder: "USER.md / MEMORY.md / README.md / scripts/check_secrets.py ..."
+      options:
+        - label: 模板文件（USER.md / MEMORY.md）
+        - label: 文档（README / SECURITY / CONTRIBUTING / ROADMAP）
+        - label: 检查脚本（scripts/）
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 问题描述
+      description: 期望结果 vs 实际结果
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 如果是脚本问题，请贴出执行的命令与完整输出
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: env
+    attributes:
+      label: 环境
+      description: 操作系统、Python 版本、使用的工具（WorkBuddy / Claude Code / 其他）
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: check
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已确认本 issue 不含真实凭据、内网地址或个人信息
+          required: true

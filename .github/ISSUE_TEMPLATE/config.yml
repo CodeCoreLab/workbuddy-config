@@ -1,0 +1,18 @@
+name: 配置为空模板（无需填写）
+description: 反馈不需要填写任何内容的空 issue —— 直接关闭
+title: "[DISCUSSION] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        这个模板用于**不需要填写内容**的情况。
+        如果只是想聊配置思路，直接在描述里写就行。
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 备注
+      description: 可留空
+    validations:
+      required: false

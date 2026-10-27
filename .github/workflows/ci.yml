@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---------------------------------------------------------------
+      # 1. 敏感信息扫描
+      #    本仓是公开模板仓 —— 任何真实凭据 / 内网地址一旦提交就是泄露。
+      #    这是本仓最需要自动化的一环。
+      # ---------------------------------------------------------------
+      - name: 敏感信息扫描
+        run: python3 scripts/check_secrets.py
+
+      # ---------------------------------------------------------------
+      # 2. 占位符语法校验
+      #    确认模板里的 {{...}} 写法正确，且没有被误填成真值。
+      # ---------------------------------------------------------------
+      - name: 占位符一致性检查
+        run: python3 scripts/check_placeholders.py
+
+      # ---------------------------------------------------------------
+      # 3. 内部链接检查
+      #    README / 治理文件里的相对链接不能断。
+      # ---------------------------------------------------------------
+      - name: 内部链接检查
+        run: python3 scripts/check_links.py
+
+      # ---------------------------------------------------------------
+      # 4. YAML 语法校验
+      #    workflow 自身的 YAML 写错会导致 CI 静默不跑（历史踩过）。
+      #    Issue 模板同样校验 —— 模板语法错误会让 GitHub 渲染出乱码。
+      # ---------------------------------------------------------------
+      - name: YAML 语法检查
+        run: |
+          python3 -c "
+          import yaml, glob, sys
+          files = sorted(glob.glob('.github/**/*.yml', recursive=True) + glob.glob('.github/**/*.yaml', recursive=True))
+          assert files, '没有找到任何 YAML 文件'
+          for f in files:
+              yaml.safe_load(open(f, encoding='utf-8'))
+          print(f'YAML OK ({len(files)} 个文件)')
+          "
